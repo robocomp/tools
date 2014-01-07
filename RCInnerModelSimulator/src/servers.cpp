@@ -22,13 +22,13 @@ JointMotorServer::JointMotorServer ( Ice::CommunicatorPtr communicator, Specific
 }
 
 
-void JointMotorServer::add ( IM2::HingeJoint *joint )
+void JointMotorServer::add ( InnerModelJoint *joint )
 {
 	joints.push_back ( joint );
 	interface->add ( joint->id );
 }
 
-void JointMotorServer::remove ( IM2::HingeJoint *joint )
+void JointMotorServer::remove ( InnerModelJoint *joint )
 {
 	interface->remove( joint->id );
 	joints.erase(std::remove(joints.begin(), joints.end(), joint), joints.end());
@@ -69,7 +69,7 @@ LaserServer::LaserServer ( Ice::CommunicatorPtr communicator, SpecificWorker *wo
 }
 
 
-void LaserServer::add ( IM2::Laser *laser )
+void LaserServer::add ( InnerModelLaser *laser )
 {
 	lasers.push_back ( laser );
 	interface->add ( laser->id );
@@ -91,7 +91,7 @@ RGBDServer::RGBDServer ( Ice::CommunicatorPtr communicator, SpecificWorker *work
 }
 
 
-void RGBDServer::add ( IM2::RGBD *rgbd )
+void RGBDServer::add ( InnerModelRGBD *rgbd )
 {
 	rgbds.push_back ( rgbd );
 	interface->add ( rgbd->id );
@@ -113,7 +113,7 @@ IMUServer::IMUServer ( Ice::CommunicatorPtr communicator, SpecificWorker *worker
 }
 
 
-void IMUServer::add ( IM2::IMU *imu )
+void IMUServer::add ( InnerModelIMU *imu )
 {
 	imus.push_back ( imu );
 	interface->add ( imu->id );
@@ -134,7 +134,7 @@ DifferentialRobotServer::DifferentialRobotServer ( Ice::CommunicatorPtr communic
 	adapter->activate();
 }
 
-void DifferentialRobotServer::add ( IM2::DifferentialRobot *differentialrobot )
+void DifferentialRobotServer::add ( InnerModelDifferentialRobot *differentialrobot )
 {
 	differentialrobots.push_back ( differentialrobot );
 	interface->add ( differentialrobot->id );

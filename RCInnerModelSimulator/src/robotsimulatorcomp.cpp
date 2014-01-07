@@ -109,7 +109,7 @@ int robotSimulatorComp::run( int argc, char* argv[] )
 	if (argc == 4 and strcmp(argv[2], "-p")==0)
 		sscanf(argv[3], "%d", &port);
 	if (port > 65535 or port < 0)
-		qFatal("Port number must be in the range 0-1023 (requires root privileges) or 1024-65535 (no privileges needed)");
+		qFatal("Port number must be in the range 0-1023 (requires root privileges) or 1024-65535 (no privileges needed). Default port number: 11175");
 	
 	// Create the worker
 	SpecificWorker* worker = new SpecificWorker( mprx, communicator(), argv[1] );
@@ -121,7 +121,7 @@ int robotSimulatorComp::run( int argc, char* argv[] )
 		InnerModelManagerI *innermodelmanagerI = new InnerModelManagerI((SpecificWorker *)worker );
 		adapter->add(innermodelmanagerI, communicator()->stringToIdentity("innermodelmanager"));
 		adapter->activate();
-		cout << SERVER_FULL_NAME " started" << endl;
+		cout << SERVER_FULL_NAME " started in port " << port << endl;
 
 		// Start the interfaces
 		worker->startServers();

@@ -20,7 +20,7 @@
 #define INNERMODELMANAGERI_H
 
 // Qt includes
-//#include <QMutex>
+#include <QMutex>
 #include <QObject>
 #include <QThread>
 
@@ -52,8 +52,8 @@ public:
 	bool getPoseFromParent ( const std::string& item, Pose3D& pose, const Ice::Current& );
 	
 	bool transform ( const std::string& item, const std::string& base, const coord3D& coordInItem, coord3D& coordInBase, const Ice::Current& );
-	bool setScale ( const std::string& item, float scaleX,float scaleY, float scaleZ, const Ice::Current& );
 	Matrix getTransformationMatrix ( const std::string& item, const std::string& base, const Ice::Current& );
+	bool setScale ( const std::string& item, float scaleX,float scaleY, float scaleZ, const Ice::Current& );
 	
 	bool setPlane ( const std::string& item, const Plane3D& pose, const Ice::Current& );
 	bool addTransform ( const std::string& item, const std::string& engine, const std::string& base, const Pose3D& pose, const Ice::Current& );

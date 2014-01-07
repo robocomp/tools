@@ -25,6 +25,7 @@ LaserI::LaserI ( SpecificWorker *_worker, QObject *parent ) : QObject ( parent )
 	worker = _worker;
 	mutex = worker->mutex;
 	innerModel = worker->getInnerModel();
+	group = worker->getRootGroup();
 }
 
 
@@ -39,10 +40,10 @@ void LaserI::add ( QString _id )
 	id = _id;
 	laserNode = innerModel->getLaser ( id );
 	laserConf.staticConf   =  1;
-	laserConf.maxMeasures  =  laserNode->im_measures;
-	laserConf.maxDegrees   = ( int ) ( 180.f*laserNode->im_angle/M_PI );
-	laserConf.maxRange     =  laserNode->im_max;
-	laserConf.minRange     =  laserNode->im_min;
+	laserConf.maxMeasures  =  laserNode->measures;
+	laserConf.maxDegrees   = ( int ) ( 180.f*laserNode->angle/M_PI );
+	laserConf.maxRange     =  laserNode->max;
+	laserConf.minRange     =  laserNode->min;
 	laserConf.iniRange     =  -laserConf.maxDegrees/2;
 	laserConf.endRange     =  laserConf.maxDegrees/2;
 	laserConf.sampleRate   =  30;

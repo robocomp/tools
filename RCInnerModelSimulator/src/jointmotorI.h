@@ -73,7 +73,7 @@ public:
 	
 private:
 	SpecificWorker *worker;
-	IM2::InnerModel *innerModel;
+	InnerModel *innerModel;
 	QStringList jointIDs;
 	
 	MotorParamsList params;

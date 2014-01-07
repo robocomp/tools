@@ -24,8 +24,8 @@ class JointMotorServer
 {
 public:
 	JointMotorServer(Ice::CommunicatorPtr communicator, SpecificWorker *worker_, uint32_t _port);
-	void add(IM2::HingeJoint *joint);
-	void remove(IM2::HingeJoint *joint);
+	void add(InnerModelJoint *joint);
+	void remove(InnerModelJoint *joint);
 	bool empty();
 	void shutdown();
 
@@ -33,7 +33,7 @@ public:
 	Ice::CommunicatorPtr comm;
 	Ice::ObjectAdapterPtr adapter;
 	JointMotorI *interface;
-	std::vector<IM2::HingeJoint *> joints;
+	std::vector<InnerModelJoint *> joints;
 	SpecificWorker *worker;
 };
 
@@ -42,12 +42,12 @@ class LaserServer
 {
 public:
 	LaserServer(Ice::CommunicatorPtr communicator, SpecificWorker *worker, uint32_t _port);
-	void add(IM2::Laser *laser);
+	void add(InnerModelLaser *laser);
 
 	uint32_t port;
 	Ice::ObjectAdapterPtr adapter;
 	LaserI *interface;
-	std::vector<IM2::Laser *> lasers;
+	std::vector<InnerModelLaser *> lasers;
 };
 
 
@@ -55,12 +55,12 @@ class RGBDServer
 {
 public:
 	RGBDServer(Ice::CommunicatorPtr communicator, SpecificWorker *worker, uint32_t _port);
-	void add(IM2::RGBD *rgbd);
+	void add(InnerModelRGBD *rgbd);
 
 	uint32_t port;
 	Ice::ObjectAdapterPtr adapter;
 	RGBDI *interface;
-	std::vector<IM2::RGBD *> rgbds;
+	std::vector<InnerModelRGBD *> rgbds;
 };
 
 
@@ -68,12 +68,12 @@ class IMUServer
 {
 public:
 	IMUServer(Ice::CommunicatorPtr communicator, SpecificWorker *worker, uint32_t _port);
-	void add(IM2::IMU *imu);
+	void add(InnerModelIMU *imu);
 
 	uint32_t port;
 	Ice::ObjectAdapterPtr adapter;
 	IMUI *interface;
-	std::vector<IM2::IMU *> imus;
+	std::vector<InnerModelIMU *> imus;
 };
 
 
@@ -81,10 +81,10 @@ class DifferentialRobotServer
 {
 public:
 	DifferentialRobotServer(Ice::CommunicatorPtr communicator, SpecificWorker *worker, uint32_t _port);
-	void add(IM2::DifferentialRobot *differentialrobot);
+	void add(InnerModelDifferentialRobot *differentialrobot);
 
 	uint32_t port;
 	Ice::ObjectAdapterPtr adapter;
 	DifferentialRobotI *interface;
-	std::vector<IM2::DifferentialRobot *> differentialrobots;
+	std::vector<InnerModelDifferentialRobot *> differentialrobots;
 };

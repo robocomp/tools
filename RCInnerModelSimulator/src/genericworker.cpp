@@ -28,7 +28,7 @@ GenericWorker::GenericWorker ( MapPrx& mprx ) : Ui_guiDlg()
 	show();
 	Period = BASIC_PERIOD;
 	connect ( &timer, SIGNAL ( timeout() ), this, SLOT ( compute() ) );
-// 	timer.start ( Period );
+	timer.start ( Period );
 }
 
 

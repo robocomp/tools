@@ -17,9 +17,9 @@ SET ( SOURCES
 	laserI.cpp
 	rgbdI.cpp
 	
-	$ENV{ROBOCOMP}/libs/osgviewer/osgview.cpp
-	$ENV{ROBOCOMP}/libs/osgviewer/viewerqt.cpp
-	$ENV{ROBOCOMP}/libs/osgviewer/adapterwidget.cpp  
+# 	$ENV{ROBOCOMP}/libs/osgviewer/osgview.cpp
+# 	$ENV{ROBOCOMP}/libs/osgviewer/viewerqt.cpp
+# 	$ENV{ROBOCOMP}/libs/osgviewer/adapterwidget.cpp  
 	$ENV{ROBOCOMP}/classes/rapplication/rapplication.cpp
 	$ENV{ROBOCOMP}/classes/qlog/qlog.cpp
 )
@@ -37,9 +37,9 @@ SET ( HEADERS
 	laserI.h
 	rgbdI.h
 	
-	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/osgview.h
-	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/viewerqt.h
-	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/adapterwidget.h
+# 	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/osgview.h
+# 	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/viewerqt.h
+# 	$ENV{ROBOCOMP}/libs/osgviewer/include/osgviewer/adapterwidget.h
 )
 
 
@@ -52,7 +52,6 @@ ROBOCOMP_LIBRARY( qmat )
 
 # IPP
 INCLUDE( $ENV{ROBOCOMP}/cmake/modules/ipp.cmake )
-
 
 # OPENSG
 INCLUDE ($ENV{ROBOCOMP}/cmake/modules/opensg.cmake )
@@ -71,6 +70,6 @@ QT4_WRAP_UI( UI_HEADERS guiDlg.ui )
 
 # Specify construction and link process
 SET (EXECUTABLE_OUTPUT_PATH ../bin)
-ADD_EXECUTABLE( rcis2 ${SOURCES} ${MOC_SOURCES} ${RC_SOURCES} ${UI_HEADERS} )
-TARGET_LINK_LIBRARIES( rcis2 glut OpenThreads osgGA osgDB osgUtil osgText ${LIBS} ${STATIC_LIBS} ${QT_LIBRARIES} ${IPP_LIBS} )
-INSTALL(FILES ${EXECUTABLE_OUTPUT_PATH}/rcis2 DESTINATION /opt/robocomp/bin/ PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )
+ADD_EXECUTABLE( rcis ${SOURCES} ${MOC_SOURCES} ${RC_SOURCES} ${UI_HEADERS} )
+TARGET_LINK_LIBRARIES( rcis glut OpenThreads osgGA osgDB osgUtil osgText ${LIBS} ${STATIC_LIBS} ${QT_LIBRARIES} -lrobocomp_osgviewer )
+INSTALL(FILES ${EXECUTABLE_OUTPUT_PATH}/rcis DESTINATION /opt/robocomp/bin/ PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE )

@@ -60,7 +60,7 @@ public:
 	
 private:
 	SpecificWorker *worker;
-	IM2::InnerModel *innerModel;
+	InnerModel *innerModel;
 	QStringList differentialIDs;
 	QMutex *mutex;
 	
@@ -80,9 +80,9 @@ private:
 	timeval lastCommand_timeval;
 	float advVel, rotVel;
 
-	IM2::Joint *parent;
-	IM2::DifferentialRobot *node;
-	IM2::Joint *realNode;
+	InnerModelTransform *parent;
+	InnerModelDifferentialRobot *node;
+	InnerModelTransform *realNode;
 };
 
 #endif

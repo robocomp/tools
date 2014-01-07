@@ -25,6 +25,7 @@
 // RoboComp includes
 #include <innermodel/innermodel.h>
 #include <InnerModelManager.h>
+#include <osgviewer/osgview.h>
 
 // Simulator includes
 #include "genericworker.h"
@@ -42,8 +43,11 @@ public:
 	SpecificWorker ( MapPrx& _mprx, Ice::CommunicatorPtr _communicator, const char* _innerModelXML );
 	~SpecificWorker();
 
-	IM2::InnerModel *getInnerModel() const;
+	osg::Group *getRootGroup();
+	InnerModel *getInnerModel();
+	InnerModelViewer* getInnerModelViewer();
 	void startServers();
+	void scheduleShutdown( JointMotorServer *j );
 	
 public slots:
 	// ----------------------------------------------------------------------------------------
@@ -57,6 +61,9 @@ public slots:
 	void setBackPOV();
 	void setLeftPOV();
 	void setRightPOV();
+	void setLigthx(double v);
+	void setLigthy(double v);
+	void setLigthz(double v);
 	void closeEvent ( QCloseEvent *event );
 
 public:

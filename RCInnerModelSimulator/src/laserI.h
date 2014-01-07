@@ -52,8 +52,9 @@ public:
 
 private:
 	QString id;
-	IM2::InnerModel *innerModel;
-	IM2::Laser *laserNode;
+	InnerModel *innerModel;
+	InnerModelLaser *laserNode;
+	osg::Group *group;
 	SpecificWorker *worker;
 	LaserConfData laserConf;
 	QMutex *mutex;

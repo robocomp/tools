@@ -45,7 +45,6 @@ JointMotorI::JointMotorI ( SpecificWorker *_worker, QObject *parent ) : QObject 
 */
 JointMotorI::~JointMotorI()
 {
-	cout << "Hola que ase. Destructor JointMotor" << endl;
 	// Free component resources here
 }
 
@@ -57,8 +56,8 @@ void JointMotorI::add(QString id)
 	MotorParams param;
 	param.invertedSign = false;
 	param.busId = jointIDs.size();
-	param.minPos = innerModel->getHingeJoint ( id )->im_min;
-	param.maxPos = innerModel->getHingeJoint ( id )->im_max;
+	param.minPos = innerModel->getJoint ( id )->min;
+	param.maxPos = innerModel->getJoint ( id )->max;
 	param.maxVelocity = 10000.;
 	param.zeroPos = 0.;
 	param.stepsRange = 0;
@@ -149,7 +148,7 @@ MotorParams JointMotorI::getMotorParams ( const string& motor, const Ice::Curren
 MotorState JointMotorI::getMotorState ( const string& motor, const Ice::Current& )
 {
 	for( QStringList::const_iterator name = jointIDs.constBegin() ; name != jointIDs.constEnd() ; ++name ) {
-		IM2::HingeJoint* joint = this->innerModel->getHingeJoint ( *name );
+		InnerModelJoint* joint = this->innerModel->getJoint ( *name );
 		states[name->toStdString()].pos = joint->getAngle();
 	}
 	return states[motor];
@@ -159,7 +158,7 @@ MotorState JointMotorI::getMotorState ( const string& motor, const Ice::Current&
 MotorStateMap JointMotorI::getMotorStateMap ( const MotorList& mList, const Ice::Current& )
 {
 	for( QStringList::const_iterator name = jointIDs.constBegin() ; name != jointIDs.constEnd() ; ++name ) {
-		IM2::HingeJoint* joint = this->innerModel->getHingeJoint ( *name );
+		InnerModelJoint* joint = this->innerModel->getJoint ( *name );
 		states[name->toStdString()].pos = joint->getAngle();
 	}
 	return states;
@@ -169,7 +168,7 @@ MotorStateMap JointMotorI::getMotorStateMap ( const MotorList& mList, const Ice:
 void JointMotorI::getAllMotorState ( MotorStateMap& mstateMap, const Ice::Current& )
 {
 	for( QStringList::const_iterator name = jointIDs.constBegin() ; name != jointIDs.constEnd() ; ++name ) {
-		IM2::HingeJoint* joint = this->innerModel->getHingeJoint ( *name );
+		InnerModelJoint* joint = this->innerModel->getJoint ( *name );
 		states[name->toStdString()].pos = joint->getAngle();
 	}
 	mstateMap = states;
