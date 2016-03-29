@@ -318,17 +318,24 @@ Z()
 ]]]
 [[[end]]]
 	int status=EXIT_SUCCESS;
+	
 
 [[[cog
+<<<<<<< HEAD
+for name, num in getNameNumber(component['requires'] + component['publishes']):
+		if communicationIsIce(name):
+			cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
+			
+if usingROS:
+	cog.outl("<TABHERE>int rosMaximumSize;")
+=======
 for namea, num in getNameNumber(component['requires'] + component['publishes']):
 	if type(namea) == str:
 		name = namea
 	else:
 		name = namea[0]
-		if communicationIsIce(name):
-			cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
-if usingROS:
-	cog.outl("<TABHERE>int rosMaximumSize;")
+	cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
+>>>>>>> origin/current
 ]]]
 [[[end]]]
 
@@ -348,14 +355,20 @@ if len(component['publishes'])>0 or len(component['subscribesTo'])>0:
 	cog.outl('<TABHERE>IceStorm::TopicManagerPrx topicManager = IceStorm::TopicManagerPrx::checkedCast(communicator()->propertyToProxy("TopicManager.Proxy"));')
 
 
+<<<<<<< HEAD
+for pb in component['publishes']:
+	if communicationIsIce(pb):
+		w = PUBLISHES_STR.replace("<NORMAL>", pb).replace("<LOWER>", pb.lower())
+		cog.outl(w)
+=======
 for pba in component['publishes']:
 	if type(pba) == str:
 		pb = pba
 	else:
 		pb = pba[0]
-	if communicationIsIce(pb):
-		w = PUBLISHES_STR.replace("<NORMAL>", pb).replace("<LOWER>", pb.lower())
-		cog.outl(w)
+	w = PUBLISHES_STR.replace("<NORMAL>", pb).replace("<LOWER>", pb.lower())
+	cog.outl(w)
+>>>>>>> origin/current
 
 
 if usingROS:

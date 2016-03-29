@@ -78,13 +78,18 @@ for namea, num in getNameNumber(component['requires']):
 [[[end]]]
 
 [[[cog
+<<<<<<< HEAD
+for name, num in getNameNumber(component['publishes']):
+	if communicationIsIce(name):
+		cog.outl("<TABHERE>"+name.lower()+num+"_proxy = (*("+name+"Prx*)mprx[\""+name+"Pub"+num+"\"]);")
+=======
 for namea, num in getNameNumber(component['publishes']):
 	if type(namea) == str:
 		name = namea
 	else:
 		name = namea[0]
-	if communicationIsIce(name):
-		cog.outl("<TABHERE>"+name.lower()+num+"_proxy = (*("+name+"Prx*)mprx[\""+name+"Pub"+num+"\"]);")
+	cog.outl("<TABHERE>"+name.lower()+num+"_proxy = (*("+name+"Prx*)mprx[\""+name+"Pub"+num+"\"]);")
+>>>>>>> origin/current
 ]]]
 [[[end]]]
 
@@ -96,6 +101,7 @@ if component['gui'] != 'none':
 		setupUi(this);
 		show();
 	#endif""")
+
 ]]]
 [[[end]]]
 	Period = BASIC_PERIOD;

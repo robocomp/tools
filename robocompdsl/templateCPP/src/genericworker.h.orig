@@ -189,13 +189,18 @@ except:
 	
 
 [[[cog
+<<<<<<< HEAD
+for name, num in getNameNumber(component['requires']+component['publishes']):
+	if communicationIsIce(name):
+		cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
+=======
 for namea, num in getNameNumber(component['requires']+component['publishes']):
 	if type(namea) == str:
 		name = namea
 	else:
 		name = namea[0]
-	if communicationIsIce(name):
-		cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
+	cog.outl('<TABHERE>'+name+'Prx '+name.lower()+num +'_proxy;')
+>>>>>>> origin/current
 ]]]
 [[[end]]]
 
@@ -231,13 +236,18 @@ if 'implements' in component:
 if 'subscribesTo' in component:
 	for imp in component['subscribesTo']:
 		nname = imp
-		while type(nname) != type(''):			
+		while type(nname) != type(''):
 			nname = nname[0]
+<<<<<<< HEAD
+		if communicationIsIce(imp):
+			module = pool.moduleProviding(nname)
+=======
 		module = pool.moduleProviding(nname)
 		if module == None:
 			print ('\nCan\'t find module providing', nname, '\n')
 			sys.exit(-1)
 		if communicationIsIce(nname):
+>>>>>>> origin/current
 			for interface in module['interfaces']:
 				if interface['name'] == nname:
 					for mname in interface['methods']:
@@ -257,7 +267,7 @@ if 'subscribesTo' in component:
 									ampersand = ''
 							# STR
 							paramStrA += delim + const + p['type'] + ' ' + ampersand + p['name']
-							cog.outl("<TABHERE>virtual " + method['return'] + ' ' + method['name'] + '(' + paramStrA + ") = 0;")
+						cog.outl("<TABHERE>virtual " + method['return'] + ' ' + method['name'] + '(' + paramStrA + ") = 0;")
 		else:
 			cog.outl("<TABHERE>virtual void ros" + nname + '(const std_msgs::' + nname + "::ConstPtr& recv" + nname + ") = 0;")
 	
