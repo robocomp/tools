@@ -10,5 +10,8 @@ setup(
     author='Esteban Martinena',
     author_email='emartinena@unex.es',
     description='Robocompdsl application',
+    install_requires=[
+        'rich',
+    ],
     entry_points={'console_scripts': ['robocompdsl = robocompdsl.main:app']}
 )

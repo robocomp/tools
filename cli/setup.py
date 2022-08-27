@@ -35,7 +35,7 @@ setup(
         ]
     },
     install_requires=[
-        'typer==0.4.1', 'docker', 'pyyaml', 'prompt_toolkit', "ruamel.yaml"
+        'typer==0.4.1', 'docker', 'pyyaml', 'prompt_toolkit', "ruamel.yaml", "termcolor", "rich", "argcomplete"
     ],
     entry_points={
         'console_scripts': [
