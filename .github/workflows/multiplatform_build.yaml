@@ -1,0 +1,67 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Robocomp multiplatform build
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  schedule:
+    - cron: "0 0 * * MON"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+concurrency:
+  group: multiplatform-build
+  cancel-in-progress: true
+
+jobs:
+  multiplatform_build:
+    # The host should always be Linux
+    strategy:
+      matrix:
+        arch: [ aarch64, armv7, ppc64le, s390x]
+        distro: [ ubuntu18.04, ubuntu20.04, ubuntu22.04 ] # ubuntu16.04, ubuntu18.04, ubuntu20.04,
+    runs-on: ubuntu-latest
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: uraimo/run-on-arch-action@v2
+        name: Build artifact
+        id: build
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+
+          # Not required, but speeds up builds by storing container images in
+          # a GitHub package registry.
+          githubToken: ${{ github.token }}
+
+          # Create an artifacts directory
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          # Mount the artifacts directory as /artifacts in the container
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          install: |
+            apt update -q -y
+            apt-get install python3-dev python3-pip python3-venv python3-wheel -y
+            pip3 install wheel build
+          # Set an output parameter `uname` for use in subsequent steps
+          run: |
+            python3 -m build --sdist --wheel --outdir dist/ cli/
+            rm -r /artifacts/* || true
+            cp dist/* /artifacts/ || true
+      - name: Get the output
+        run: |
+          ls -al "${PWD}/artifacts"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: robocomp-cli-${{ matrix.distro }}-${{ matrix.arch }}
+          path: artifacts/*
