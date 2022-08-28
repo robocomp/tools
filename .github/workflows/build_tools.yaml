@@ -1,8 +1,8 @@
 name: Build Python 🐍 distributions files 📦
 
 on:
-  - push
-  - workflow_dispatch
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   build-n-publish:

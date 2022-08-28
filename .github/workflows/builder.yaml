@@ -1,0 +1,17 @@
+name: Builder for tools
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: "0 0 * * MON"
+  workflow_dispatch:
+
+jobs:
+  multiplatform_build:
+    uses: ./.github/workflows/multiplatform_build.yaml
+  common_build:
+    uses: ./.github/workflows/build_tools.yaml
