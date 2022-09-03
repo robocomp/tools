@@ -1,0 +1,4 @@
+import "Baz.i.yaml";
+
+Module Foo {
+};

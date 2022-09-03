@@ -1,0 +1,12 @@
+import "DifferentialRobot.idsl";
+import "Laser.idsl";
+
+Agent MyFirstAgent {
+    Language python;
+    Communications {
+        robocomp {
+            Requires DifferentialRobot, Laser;
+        };
+    };
+};
+

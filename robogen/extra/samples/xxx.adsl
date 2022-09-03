@@ -1,0 +1,23 @@
+import "Foo.idsl";
+import "../samples/Bar.i.yaml";
+
+Agent path_planner_astar {
+    Language python;
+    Qtdebug;
+    Apis
+        inner_eigen,
+        cam,
+        rt;
+    IgnoreAttrs
+        cam_rgb,
+        cam_depth;
+    Subscriptions
+        @node_x,
+        |edge_y;
+    Communications {
+        robocomp {
+            Implements Foo;
+            SubscribesTo Bar;
+        };
+    };
+};

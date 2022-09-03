@@ -1,0 +1,26 @@
+name:     path_planner_astar
+language: python
+qtdebug:  true
+
+imports:
+  - Foo.idsl
+  - ../samples/Bar.i.yaml
+
+apis:
+  - inner_eigen
+  - cam
+  - rt
+
+ignore_attrs:
+  - cam_rgb
+  - cam_depth
+
+subscriptions:
+  
+  nodes:
+    - node_x
+  
+  edges:
+    - edge_y
+
+communications: {}

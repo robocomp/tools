@@ -1,0 +1,6 @@
+pyparsing~=2.4.7
+PyYAML~=6.0
+schema~=0.7.5
+semver~=2.13.0
+toml~=0.10.2
+typer~=0.3.2
