@@ -1,5 +1,6 @@
 import importlib
 import os
+import re
 import shlex
 import subprocess
 from string import Template
@@ -66,18 +67,21 @@ class Generator:
 
 			# Run all populators through it
             for populator in entry.populators:
-                template = Template(result.replace('$$', '$$$$'))
+                template = IndentedTemplate(result.replace('$$', '$$$$'))
                 fields   = populator(file, artifact).populate()
-                result   = template.safe_substitute(fields)
+                result   = template.substitute(fields)
 
             # Simple dummy class which will return '' for any subscript attempt
             # This lets the template clear all leftover hooks.
             class Dummy:
-                def __getitem__(self, _):
-                    return ' '
+                def __getitem__(self, key):
+                    return ''
+
+                def get(self, key, default=None):
+                    return ''
 
             # Cleanup unused hooks
-            result = Template(result).substitute(Dummy())
+            result = IndentedTemplate(result).substitute(Dummy())
 
             # Write generated code
             with open(target, 'w') as f:
@@ -138,3 +142,80 @@ class GeneratorManager:
         for old_file, new_file in diff_files.items():
             tool, *args = shlex.split(self.diff_tool)
             subprocess.call([tool, *args, old_file, new_file])
+
+class IndentedTemplate(Template):
+    # TODO: copied straight from RoboCompDSL, maybe cleanup and tidy up the code?
+    delimiter = '$'
+    pattern = r'''
+        (?P<previous>[^$\n]*)\$(?:
+            (?P<escaped>\$) |   # Escape sequence of two delimiters
+            (?P<named>[_a-z][_a-z0-9]*)      |   # delimiter and a Python identifier
+            {(?P<braced>[_a-z][_a-z0-9]*)}   |   # delimiter and a braced identifier
+            (?P<invalid>)              # Other ill-formed delimiter exprs
+        )
+    '''
+
+    def __init__(self, template, trimlines=True):
+        super(IndentedTemplate, self).__init__(template)
+        self.trimlines = trimlines
+
+    def substitute(*args, **kws):
+        if not args:
+            raise TypeError("descriptor 'substitute' of 'Template' object "
+                            "needs an argument")
+        self, *args = args  # allow the "self" keyword be passed
+        if len(args) > 1:
+            raise TypeError('Too many positional arguments')
+        if not args:
+            mapping = kws
+        elif kws:
+            mapping = ChainMap(kws, args[0])
+        else:
+            mapping = args[0]
+
+        def reindent(previous, string):
+            if previous.strip() == '':
+                out_lines = []
+                lines = string.splitlines()
+                if len(lines) > 0:
+                    if self.trimlines:
+                        if lines and lines[0].strip() == '':
+                            del lines[0]
+                        if lines and lines[-1].strip() == '':
+                            del lines[-1]
+                    for line in lines:
+                        if line.strip() != '':
+                            out_lines.append(previous + line)
+                        else:
+                            out_lines.append(line)
+                return '\n'.join(out_lines)
+            else:
+                return previous+string
+
+        # Helper function for .sub()
+        def convert(mo):
+            # Check the most common path first.
+            named = mo.group('named') or mo.group('braced')
+            if named is not None:
+                converted = reindent(mo.group('previous'), str(mapping.get(named, f'${{{named}}}')))
+                if converted != '':
+                    return converted
+                else:
+                    return "<LINEREMOVE>"
+            if mo.group('escaped') is not None:
+                return mo.group('previous')+self.delimiter
+            if mo.group('invalid') is not None:
+                self._invalid(mo)
+            raise ValueError('Unrecognized named group in pattern',
+                             self.pattern)
+        substituted = self.pattern.sub(convert, self.template)
+        # The only way to remove extra lines that template leaves.
+        return re.sub('<LINEREMOVE>.*\n', '', substituted)
+
+    def identifiers(self):
+        identifiers = []
+        results = self.pattern.findall(self.template)
+        for result in results:
+            if result[3] != '' and result[3] not in identifiers:
+                identifiers.append(result[3])
+        return identifiers

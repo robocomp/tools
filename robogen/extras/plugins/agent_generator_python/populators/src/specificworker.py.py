@@ -112,9 +112,11 @@ class Populator(robogen.Populator):
     def populate(self):
         return {
             'component_name':             self.artifact.name,
+            'qtdebug':                    self.qtdebug(),
             'dsr_import':                 DSR_IMPORT,
             'dsr_slots':                  DSR_SLOTS,
             'dsr_init':                   DSR_INIT,
+            'dsr_ignored_attrs':          self.dsr_ignored_attrs(),
             'timeout_compute_connect':    TIMEOUT_COMPUTE_CONNECT,
             'compute_creation':           COMPUTE_METHOD_STR,
             'startup_check_ice':          self.startup_check_ice(),
@@ -123,9 +125,26 @@ class Populator(robogen.Populator):
             'interface_specific_comment': self.interface_specific_comment(),
 	    }
 
+    def qtdebug(self):
+        return f'QLoggingCategory.setFilterRules("*.debug={str(self.artifact.qtdebug).lower()}\\n");'
+
     def methods(self, interfaces, subscribe=False):
         # TODO: The original method is very, intrincate. Will do this later.
         return '# TODO'
+
+    def dsr_ignored_attrs(self):
+        ignored_attrs = self.artifact.ignored_attrs
+        result = ''
+
+        if not ignored_attrs:
+            return ''
+
+        result += '# Ignore attributes from G'
+
+        for attr in ignored_attrs:
+            result += f"# TODO: the Python API does not support ignoring attributes! Ignore `{attr}'\n"
+
+        return result
 
     def subscribes_to_methods(self):
         subscribes_to = self.artifact.communications['robocomp']['subscribes_to']

@@ -3,7 +3,7 @@
 
 ${header}
 
-from PySide2.QtCore import QTimer
+from PySide2.QtCore import QLoggingCategory, QTimer
 from PySide2.QtWidgets import QApplication
 from rich.console import Console
 from genericworker import *
@@ -24,7 +24,9 @@ class SpecificWorker(GenericWorker):
     def __init__(self, proxy_map, startup_check=False):
         super(SpecificWorker, self).__init__(proxy_map)
         self.Period = 2000
+        ${qtdebug}
         ${dsr_init}
+        ${dsr_ignored_attrs}
         if startup_check:
             self.startup_check()
         else:

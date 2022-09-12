@@ -3,6 +3,9 @@ import "Laser.idsl";
 
 Agent MyFirstAgent {
     Language python;
+    Subscriptions
+        @foo,
+        |bar;
     Communications {
         robocomp {
             Requires DifferentialRobot, Laser;

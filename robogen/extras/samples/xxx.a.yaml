@@ -6,14 +6,14 @@ imports:
   - Foo.idsl
   - ../samples/Bar.i.yaml
 
+ignore_attrs:
+  - cam_rgb
+  - cam_depth
+
 apis:
   - inner_eigen
   - cam
   - rt
-
-ignore_attrs:
-  - cam_rgb
-  - cam_depth
 
 subscriptions:
   

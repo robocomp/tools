@@ -62,7 +62,7 @@ class AgentArtifact(robogen.Artifact):
         self.language       = tree['language']
         self.imports        = importer.import_files(tree['imports'])
         self.qtdebug        = tree['qtdebug']
-        self.ignore_attrs   = tree['ignore_attrs']
+        self.ignored_attrs  = tree['ignore_attrs']
         self.communications = tree['communications'] # TODO
         # TODO: hack but I don't have time for PyParsing shenanigans
         self.sub_nodes      = tree['subscriptions']['nodes'] if tree['subscriptions'] else {}
