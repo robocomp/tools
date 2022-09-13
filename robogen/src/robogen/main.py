@@ -3,6 +3,8 @@
 import os
 import typer
 
+from typing import List
+
 from robogen.artifact  import ImportManager
 from robogen.generator import GeneratorManager
 from robogen.plugin    import PluginManager
@@ -26,8 +28,8 @@ Options:
 def generate(
     input_file:  str       = typer.Argument(..., help='Input file to drive the generation'),
     output_path: str       = typer.Argument(..., help='Destination for the generated files'),
-    plugin_dirs: list[str] = typer.Option([], '--plugin-dir', '-P', help='Add directory to look for plugins'),
-    import_dirs: list[str] = typer.Option([], '--import-dir', '-I', help='Add directory to look for import files'),
+    plugin_dirs: List[str] = typer.Option([], '--plugin-dir', '-P', help='Add directory to look for plugins'),
+    import_dirs: List[str] = typer.Option([], '--import-dir', '-I', help='Add directory to look for import files'),
     diff_tool:   str       = typer.Option(None, '--diff', '-d', help="Diff `.new' files against their old counterparts")
 ):
     '''Entry point for the application.'''
