@@ -3,4 +3,4 @@ PROJECT( ${component_name} )
 
 INCLUDE( /opt/robocomp/cmake/robocomp.cmake )
 
-ROBOCOMP_IDSL_TO_ICE( ${ice_interfaces} )
+ROBOCOMP_IDSL_TO_ICE( CommonBehavior ${ice_interfaces} )
